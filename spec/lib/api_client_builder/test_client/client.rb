@@ -6,7 +6,6 @@ module TestClient
   class Client < APIClientBuilder::APIClient
     def initialize(**opts)
       super(domain: opts[:domain],
-            response_handler: TestClient::ResponseHandler,
             http_client: TestClient::HTTPClientHandler)
     end
 

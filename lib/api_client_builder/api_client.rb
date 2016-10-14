@@ -17,7 +17,6 @@ module APIClientBuilder
     def initialize(**opts)
       @url_generator = APIClientBuilder::URLGenerator.new(opts[:domain])
       @http_client = opts[:http_client]
-      @response_handler = opts[:response_handler]
     end
 
     # Used to define a GET api route on the base class. Will
@@ -49,7 +48,7 @@ module APIClientBuilder
 
     # Used to define a POST api route on the base class. Will
     # yield a method that takes the shape of 'post_type' that will
-    # return an ItemRequest.
+    # return a PostRequest.
     #
     # @param type [Symbol] defines the route model
     # @param route [String] defines the routes endpoint
@@ -67,7 +66,7 @@ module APIClientBuilder
 
     # Used to define a PUT api route on the base class. Will
     # yield a method that takes the shape of 'put_type' that will
-    # return an ItemRequest.
+    # return a PutRequest.
     #
     # @param type [Symbol] defines the route model
     # @param route [String] defines the routes endpoint
