@@ -95,6 +95,7 @@ Define the route on the client
 ```
 
 Use the defined route
+
 ```ruby
 single_request = client.get_some_object(id: 123)
 
@@ -104,11 +105,13 @@ response_body = single_request.response
 #### Collection Item Gets: Yields GetCollectionRequest
 
 Define the route on the client
+
 ```ruby
   get :some_objects, :collection, 'some_objects'
 ```
 
 Use the defined route
+
 ```ruby
 collection_request = client.get_some_objects
 
@@ -120,11 +123,13 @@ end
 #### Put Item: Yields PutRequest
 
 Define the route on the client
+
 ```ruby
 put :some_object, 'some_objects/:id'
 ```
 
 Use the defined route (Takes a hash/JSON as the first arg)
+
 ```ruby
 request = client.put_some_object({}, id: 123)
 
@@ -134,11 +139,13 @@ response_body = request.response
 #### Collection Item Gets: Yields PostRequest
 
 Define the route on the client
+
 ```ruby
 post :some_objects, 'some_objects'
 ```
 
 Use the defined route (Takes a hash/JSON as the first arg)
+
 ```ruby
 request = client.post_some_object({})
 
@@ -221,6 +228,7 @@ end
 ```
 
 ---
+
 ## Response Handler Examples
 
 #### For single gets
