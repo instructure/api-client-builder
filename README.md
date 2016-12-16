@@ -5,6 +5,8 @@ API Client Builder was created to reduce the overhead of creating API clients.
 It provides a DSL for defining endpoints and only requires you to define handlers
 for http requests and responses.
 
+---
+
 ## Installation
 
 Add this line to your application's Gemfile:
@@ -19,9 +21,12 @@ Or install it yourself as:
 
     $ gem install api_client_builder
 
+---
+
 ## Defining a client
 
 The basic client structure looks like this.
+
 ```ruby
 require 'api_client_builder/api_client'
 require 'path/to/your/http_client_handler'
@@ -43,6 +48,7 @@ be defined concretely on a per-client basis.
 Exponential back-off is optional for handling retries of requests. If unset,
 the builder will ignore it and will resort to just calling error handlers
 upon failure.
+
 ```ruby
 def response_handler_build(http_client, start_url, type)
   ResponseHandler.new(http_client, start_url, type, exponential_backoff: true)
@@ -77,8 +83,13 @@ builder's APIClient class. Four parts have been defined to help:
 
 
 ---
-#### Example of Single Item Gets: Yields GetItemRequest
+
+## Route Examples
+
+#### Single Item Gets: Yields GetItemRequest
+
 Define the route on the client
+
 ```ruby
   get :some_object, :singular, 'some_objects/:id'
 ```
@@ -90,8 +101,7 @@ single_request = client.get_some_object(id: 123)
 response_body = single_request.response
 ```
 
----
-#### Example of Collection Item Gets: Yields GetCollectionRequest
+#### Collection Item Gets: Yields GetCollectionRequest
 
 Define the route on the client
 ```ruby
@@ -107,8 +117,7 @@ collection_request.each do |item|
 end
 ```
 
----
-#### Example of Put Item: Yields PutRequest
+#### Put Item: Yields PutRequest
 
 Define the route on the client
 ```ruby
@@ -122,8 +131,7 @@ request = client.put_some_object({}, id: 123)
 response_body = request.response
 ```
 
----
-#### Example of Collection Item Gets: Yields PostRequest
+#### Collection Item Gets: Yields PostRequest
 
 Define the route on the client
 ```ruby
@@ -137,15 +145,17 @@ request = client.post_some_object({})
 response_body = request.response
 ```
 
----
-#### Example of multiple routes for same object
+#### Multiple routes for same object
 
 All of these routes will yield a collection with type "some_objects"
+
 ```ruby
 get :some_objects, :collection, 'some_objects'
 get :some_objects_for_school, :collection, 'school/:school_id/some_objects'
 get :some_objects_for_course, :collection, 'course/:course_id/some_objects'
 ```
+
+---
 
 ## Defining an HTTP Client Handler
 
@@ -178,6 +188,8 @@ class HTTPClientHandler
 end
 ```
 
+---
+
 ## Defining a Response Handler
 
 The response handler is where everything comes together. As the name suggests,
@@ -209,6 +221,8 @@ end
 ```
 
 ---
+## Response Handler Examples
+
 #### For single gets
 
 The builder will only call `#get_first_page` when handling `:singular` for get routes.
@@ -228,7 +242,6 @@ def get_first_page
 end
 ```
 
----
 #### For collection gets
 
 The builder will call `#get_next_page` when handling `:collection` for get routes. It will
@@ -251,7 +264,6 @@ def more_pages?
 end
 ```
 
----
 #### For puts
 
 The builder will call `#put_request` when handling put routes.
@@ -266,7 +278,6 @@ def put_request
 end
 ```
 
----
 #### For posts
 
 The builder will call `#post_request` when handling post routes.
@@ -281,7 +292,6 @@ def post_request
 end
 ```
 
----
 #### Handling retry-able requests
 
 If requests defined need to be retry-able, extend the response handler by providing
@@ -314,8 +324,7 @@ def retry_request
 end
 ```
 
----
-#### Handling the responses
+#### Managing the http response
 
 The builder defines a default `Response` object that will provide the minimally
 required interface for managing an http response.
@@ -333,6 +342,8 @@ end
 The block above is the simplest use case for using the built-in `Response` object.
 If a custom `Response` is required, define `#success?` and it will comply with
 the builders contract with that object.
+
+---
 
 ## Error handling
 
@@ -362,6 +373,8 @@ end
 
 response_body = single_request.response
 ```
+
+---
 
 ## License
 
