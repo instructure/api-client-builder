@@ -6,7 +6,7 @@ Gem::Specification.new do |gem|
   gem.summary       = "API Client Builder provides an easy to use interface for creating HTTP api clients"
   gem.description   = "API Client Builder provides an easy to use interface for creating HTTP api clients"
   gem.authors       = ['Jayce Higgins']
-  gem.email         = ['jaycekhiggins@gmail.com']
+  gem.email         = ['jhiggins@instructure.com', 'eng@instructure.com']
 
   gem.files         = %w[api_client_builder.gemspec readme.md]
 
