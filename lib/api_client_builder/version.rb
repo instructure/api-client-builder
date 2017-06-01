@@ -1,3 +1,3 @@
 module APIClientBuilder
-  VERSION = '1.0.0' unless defined?(APIClientBuilder::VERSION)
+  VERSION = '1.0.1' unless defined?(APIClientBuilder::VERSION)
 end

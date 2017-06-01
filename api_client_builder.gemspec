@@ -8,10 +8,6 @@ Gem::Specification.new do |gem|
   gem.authors       = ['Jayce Higgins']
   gem.email         = ['jhiggins@instructure.com', 'eng@instructure.com']
 
-  gem.files         = %w[api_client_builder.gemspec readme.md]
-
-  gem.test_files    = Dir.glob("spec/**/*")
-  gem.require_paths = ["lib"]
   gem.version       = APIClientBuilder::VERSION
   gem.required_ruby_version = '>= 2.0'
 
@@ -20,4 +16,9 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency 'pry'
   gem.add_development_dependency 'rspec'
   gem.add_development_dependency 'wwtd'
+
+  gem.files         = `git ls-files`.split("\n")
+  gem.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
+  gem.executables   = `git ls-files -- bin/*`.split("\n").map { |f| File.basename(f) }
+  gem.require_paths = ["lib"]
 end
