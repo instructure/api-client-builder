@@ -1,11 +1,10 @@
 require 'spec_helper'
-require 'lib/api_client_builder/test_client/client'
-require 'api_client_builder/api_client'
+require_relative 'test_client/client'
 
 module APIClientBuilder
   describe APIClient do
-    let(:domain) {'https://www.domain.com/api/endpoints/'}
-    let(:client) {TestClient::Client.new(domain: domain)}
+    let(:domain) { 'https://www.domain.com/api/endpoints/' }
+    let(:client) { TestClient::Client.new(domain: domain) }
 
     describe '.get' do
       context 'plurality is :collection' do

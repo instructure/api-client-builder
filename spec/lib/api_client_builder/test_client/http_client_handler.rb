@@ -4,7 +4,6 @@ module TestClient
       @domain = domain
     end
 
-    def get(route, params = nil, headers = {})
-    end
+    def get(route, params = nil, headers = {}); end
   end
 end

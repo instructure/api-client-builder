@@ -1,9 +1,13 @@
-require 'api_client_builder/version'
-require 'api_client_builder/api_client'
-require 'api_client_builder/get_collection_request'
-require 'api_client_builder/get_item_request'
-require 'api_client_builder/post_request'
-require 'api_client_builder/put_request'
-require 'api_client_builder/request'
-require 'api_client_builder/response'
-require 'api_client_builder/url_generator'
+require 'uri'
+
+require_relative 'api_client_builder/version'
+require_relative 'api_client_builder/request'
+require_relative 'api_client_builder/response'
+
+require_relative 'api_client_builder/get_collection_request'
+require_relative 'api_client_builder/get_item_request'
+require_relative 'api_client_builder/post_request'
+require_relative 'api_client_builder/put_request'
+require_relative 'api_client_builder/url_generator'
+
+require_relative 'api_client_builder/api_client'

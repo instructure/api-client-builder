@@ -1,5 +1,5 @@
 module APIClientBuilder
-  class DefaultPageError < StandardError;end
+  class DefaultPageError < StandardError; end
 
   class Request
     attr_reader :type, :response_handler, :body, :error_handlers_collection
@@ -23,11 +23,11 @@ module APIClientBuilder
     # @return [Array<Block>] the error handlers collection
     def error_handlers
       if error_handlers_collection.empty?
-        self.on_error do |page, handler|
-          raise DefaultPageError,
-            "Default error for bad response. If you want to handle this" \
-            " error use #on_error on the response" \
-            " in your api consumer. Error Code: #{page.status_code}"
+        on_error do |page, _handler|
+          raise DefaultPageError, <<~MESSAGE
+            Default error for bad response. If you want to handle this error use #on_error
+            on the response in your api consumer. Error Code: #{page.status_code}.
+          MESSAGE
         end
       end
       error_handlers_collection

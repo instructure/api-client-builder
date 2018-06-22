@@ -1,5 +1,3 @@
-require 'api_client_builder/request'
-
 module APIClientBuilder
   class PutRequest < Request
     # Yields the response body if the response was successful. Will call

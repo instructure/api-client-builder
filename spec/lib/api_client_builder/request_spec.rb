@@ -1,6 +1,5 @@
 require 'spec_helper'
-require 'lib/api_client_builder/test_client/client'
-require 'api_client_builder/request'
+require_relative 'test_client/client'
 
 module APIClientBuilder
   describe Request do
@@ -12,9 +11,8 @@ module APIClientBuilder
           bad_response = APIClientBuilder::Response.new('bad request', 400, [200])
           allow_any_instance_of(TestClient::ResponseHandler).to receive(:get_first_page).and_return(bad_response)
           allow_any_instance_of(TestClient::ResponseHandler).to receive(:retry_request).and_return(bad_response)
-          expect{ client.get_some_object(some_id: '123').response }.to raise_error(
-            APIClientBuilder::DefaultPageError,
-            "Default error for bad response. If you want to handle this error use #on_error on the response in your api consumer. Error Code: 400"
+          expect { client.get_some_object(some_id: '123').response }.to raise_error(
+            APIClientBuilder::DefaultPageError, /Error Code: 400/
           )
         end
       end
@@ -28,13 +26,13 @@ module APIClientBuilder
           allow_any_instance_of(TestClient::ResponseHandler).to receive(:retry_request).and_return(bad_response)
           object_response = client.get_some_object(some_id: '123')
 
-          object_response.on_error do |page, response|
-            raise StandardError, "Something Bad Happened"
+          object_response.on_error do |_page, _response|
+            raise StandardError, 'Something Bad Happened'
           end
 
-          expect{object_response.response}.to raise_error(
+          expect { object_response.response }.to raise_error(
             StandardError,
-            "Something Bad Happened"
+            'Something Bad Happened'
           )
         end
       end

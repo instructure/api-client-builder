@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'api_client_builder/response'
 
 module APIClientBuilder
   describe Response do
@@ -18,7 +17,7 @@ module APIClientBuilder
 
       it 'returns false when the response is otherwise marked as failed' do
         page = Response.new([], 200, [200])
-        page.mark_failed "Something happened"
+        page.mark_failed 'Something happened'
 
         expect(page.success?).to eq(false)
       end

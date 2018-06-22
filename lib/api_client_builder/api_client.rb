@@ -1,9 +1,3 @@
-require 'api_client_builder/get_collection_request'
-require 'api_client_builder/get_item_request'
-require 'api_client_builder/post_request'
-require 'api_client_builder/put_request'
-require 'api_client_builder/url_generator'
-
 module APIClientBuilder
   # The base APIClient that defines the interface for defining an API Client.
   # Should be sub-classed and then provided an HTTPClient handler and a
@@ -28,7 +22,7 @@ module APIClientBuilder
     # @param route [String] defines the routes endpoint
     #
     # @return [Request] either a GetCollection or GetItem request
-    def self.get(type, plurality, route, **opts)
+    def self.get(type, plurality, route, **_opts)
       if plurality == :collection
         define_method("get_#{type}") do |**params|
           GetCollectionRequest.new(

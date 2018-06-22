@@ -1,6 +1,5 @@
 require 'spec_helper'
-require 'api_client_builder/put_request'
-require 'lib/api_client_builder/test_client/client'
+require_relative 'test_client/client'
 
 module APIClientBuilder
   describe PutRequest do
@@ -20,9 +19,8 @@ module APIClientBuilder
 
           bad_response = APIClientBuilder::Response.new('bad request', 400, [200])
           allow_any_instance_of(TestClient::ResponseHandler).to receive(:put_request).and_return(bad_response)
-          expect{ client.put_some_object({}).response }.to raise_error(
-            APIClientBuilder::DefaultPageError,
-            "Default error for bad response. If you want to handle this error use #on_error on the response in your api consumer. Error Code: 400"
+          expect { client.put_some_object({}).response }.to raise_error(
+            APIClientBuilder::DefaultPageError, /Error Code: 400/
           )
         end
       end

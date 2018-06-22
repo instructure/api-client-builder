@@ -1,5 +1,3 @@
-require 'api_client_builder/request'
-
 module APIClientBuilder
   # The multi item response object to be used as the container for
   # collection responses from the defined API
@@ -11,6 +9,7 @@ module APIClientBuilder
     # strategy is defined concretely on the response handler.
     #
     # @return [JSON] the http response body
+    # rubocop:disable Metrics/AbcSize
     def each
       if block_given?
         each_page do |page|
@@ -32,6 +31,7 @@ module APIClientBuilder
         Enumerator.new(self, :each)
       end
     end
+    # rubocop:enable Metrics/AbcSize
 
     private
 

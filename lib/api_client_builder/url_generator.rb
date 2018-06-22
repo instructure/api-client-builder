@@ -1,7 +1,5 @@
-require 'uri'
-
 module APIClientBuilder
-  class NoURLError < StandardError;end
+  class NoURLError < StandardError; end
   class URLGenerator
     # Receives a domain and parses it into a URI
     #
@@ -23,8 +21,8 @@ module APIClientBuilder
     #
     # @return [URI] the fully built route
     def build_route(route, **params)
-      string_params = route.split('/').select{|param| param.start_with?(':')}
-      symboled_params = string_params.map{|param| param.tr(':', '').to_sym}
+      string_params = route.split('/').select { |param| param.start_with?(':') }
+      symboled_params = string_params.map { |param| param.tr(':', '').to_sym }
 
       new_route = route.clone
       symboled_params.each do |param|

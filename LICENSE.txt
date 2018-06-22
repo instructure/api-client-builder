@@ -1,4 +1,4 @@
-Copyright (c) 2016 Instructure Inc.
+Copyright (c) 2016-2018 Instructure Inc.
 
 MIT License
 

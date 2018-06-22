@@ -1,6 +1,5 @@
-require 'api_client_builder/api_client'
-require 'lib/api_client_builder/test_client/response_handler'
-require 'lib/api_client_builder/test_client/http_client_handler'
+require_relative 'response_handler'
+require_relative 'http_client_handler'
 
 module TestClient
   class Client < APIClientBuilder::APIClient

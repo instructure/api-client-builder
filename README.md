@@ -3,7 +3,9 @@
 API Client Builder was created to reduce the overhead of creating API clients.
 
 It provides a DSL for defining endpoints and only requires you to define handlers
-for http requests and responses.
+for HTTP requests and responses.
+
+[![Build Status](https://travis-ci.org/instructure/api-client-builder.svg?branch=master)](https://travis-ci.org/instructure/api-client-builder)
 
 ---
 
@@ -28,10 +30,6 @@ Or install it yourself as:
 The basic client structure looks like this.
 
 ```ruby
-require 'api_client_builder/api_client'
-require 'path/to/your/http_client_handler'
-require 'path/to/your/response_handler'
-
 class Client < APIClientBulder::APIClient
   def initialize(**opts)
     super(domain: opts[:domain],
@@ -55,8 +53,8 @@ def response_handler_build(http_client, start_url, type)
 end
 ```
 
-
 ### Defining routes on the client
+
 To define routes on the api client, use the DSL provided by the
 builder's APIClient class. Four parts have been defined to help:
 
@@ -81,7 +79,6 @@ builder's APIClient class. Four parts have been defined to help:
   - Note that any symbols in the route will be interpolated as required
    params when calling the method on the client.
 
-
 ---
 
 ## Route Examples
@@ -91,7 +88,7 @@ builder's APIClient class. Four parts have been defined to help:
 Define the route on the client
 
 ```ruby
-  get :some_object, :singular, 'some_objects/:id'
+get :some_object, :singular, 'some_objects/:id'
 ```
 
 Use the defined route
@@ -107,7 +104,7 @@ response_body = single_request.response
 Define the route on the client
 
 ```ruby
-  get :some_objects, :collection, 'some_objects'
+get :some_objects, :collection, 'some_objects'
 ```
 
 Use the defined route
@@ -116,7 +113,7 @@ Use the defined route
 collection_request = client.get_some_objects
 
 collection_request.each do |item|
-  #Item will be a Hash if you use the default response in the response handler
+  # Item will be a Hash if you use the default response in the response handler
 end
 ```
 
@@ -166,16 +163,16 @@ get :some_objects_for_course, :collection, 'course/:course_id/some_objects'
 
 ## Defining an HTTP Client Handler
 
-The HTTP Client Handler is designed to manage the http requests themselves. Since
+The HTTP Client Handler is designed to manage the HTTP requests themselves. Since
 actually making an HTTP request typically requires some amount of authentication,
 it is suggested that authentication and headers are managed here as well.
 
-The http client handler requires '#get', '#post', and '#put' to be defined here
+The HTTP client handler requires '#get', '#post', and '#put' to be defined here
 with the shown method signature.
 
 ```ruby
 class HTTPClientHandler
-  #Do initialization here, generally authentication creds and a domain is sent in
+  # Do initialization here, generally authentication creds and a domain is sent in
 
   def get(route, params = nil, headers = {})
     client.get(route, params, headers)
@@ -189,9 +186,9 @@ class HTTPClientHandler
     client.post(route, params, headers)
   end
 
-  #Define a client to use here. The HTTPClient gem is a good option
+  # Define a client to use here. The HTTPClient gem is a good option
 
-  #Build up headers and authentication handling here as well
+  # Build up headers and authentication handling here as well
 end
 ```
 
@@ -219,11 +216,11 @@ these actions simpler.
 
 ```ruby
 class ResponseHandler
-    def initialize(http_client_handler, start_url, type)
-      @http_client = http_client_handler
-      @start_url = start_url
-      @type = type
-    end
+  def initialize(http_client_handler, start_url, type)
+    @http_client = http_client_handler
+    @start_url = start_url
+    @type = type
+  end
 end
 ```
 
@@ -239,13 +236,13 @@ of pages and also start the page counter.
 
 ```ruby
 def get_first_page
-  #Build the URL -- this could be to add pagination params to the route, or add
-  #  whatever else is necessary to the route
+  # Build the URL -- this could be to add pagination params to the route, or
+  # add whatever else is necessary to the route.
   http_response = @http_client.get("a URL")
 
-  #Generally the first page will contain information about how many pages a paginated
-  #  response will have. Set that here. `@max_pages`
-  #Be sure to set the current page count as well -- @current_page
+  # Generally the first page will contain information about how many pages a
+  # paginated response will have. Set that here: `@max_pages`
+  # Be sure to set the current page count as well: `@current_page`
   build_response(http_response)
 end
 ```
@@ -258,17 +255,16 @@ return a boolean denoting the presence of more pages.
 
 ```ruby
 def get_next_page
-  #Build the URL -- this could be to add pagination params to the route, or add
-  #  whatever else is necessary to the route
+  # Build the URL -- this could be to add pagination params to the route, or
+  # add whatever else is necessary to the route:
   http_response = @http_client.get("a URL")
 
-  #If the http_response is valid then increment the page counter here
+  # If the http_response is valid then increment the page counter here.
   build_response(http_response)
 end
 
 def more_pages?
-  return false if @current_page > @max_pages
-  return true
+  @current_page < @max_pages
 end
 ```
 
@@ -278,9 +274,9 @@ The builder will call `#put_request` when handling put routes.
 
 ```ruby
 def put_request
-  #Build the URL -- this could be to add pagination params to the route, or add
-  #  whatever else is necessary to the route
-  #Also send the body if thats how the client handler is configured
+  # Build the URL -- this could be to add pagination params to the route, or
+  # add whatever else is necessary to the route.
+  # Also send the body if thats how the client handler is configured.
   http_response = @http_client.put("a URL", {})
   build_response(http_response)
 end
@@ -292,9 +288,9 @@ The builder will call `#post_request` when handling post routes.
 
 ```ruby
 def post_request
-  #Build the URL -- this could be to add pagination params to the route, or add
-  #  whatever else is necessary to the route
-  #Also send the body if thats how the client handler is configured
+  # Build the URL -- this could be to add pagination params to the route, or
+  # add whatever else is necessary to the route.
+  # Also send the body if that's how the client handler is configured.
   http_response = @http_client.post("a URL", {})
   build_response(http_response)
 end
@@ -308,34 +304,35 @@ the following methods.
 ```ruby
 def retryable?(status_code)
   if @opts[:exponential_backoff]
-    #Define the conditions of whether or not the provided status code is retry-able
+    # Define the conditions of whether or not the provided status code is retry-able
+    true 
   else
-    return false
+    false
   end
 end
 
 def reset_retries
-  #Track the number of retries so the request is not retried indefinitely.
-  #  The builder will reset them when it no longer is retrying by calling this
-  #  method
+  # Track the number of retries so the request is not retried indefinitely.
+  # The builder will reset them when it no longer is retrying by calling this
+  # method.
   @retries = 0
 end
 
 def retry_request
-  #Increment the retries here so the request is not retried indefinitely.
+  # Increment the retries here so the request is not retried indefinitely.
   @retries += 1
 
-  #Build the URL -- this could be to add pagination params to the route, or add
-  #  whatever else is necessary to the route
+  # Build the URL -- this could be to add pagination params to the route, or
+  # add whatever else is necessary to the route.
   response = @http_client.the_action_to_retry("a URL")
   build_response(response)
 end
 ```
 
-#### Managing the http response
+#### Managing the HTTP response
 
 The builder defines a default `Response` object that will provide the minimally
-required interface for managing an http response.
+required interface for managing an HTTP response.
 
 ```ruby
 def build_response(http_response)
@@ -373,10 +370,10 @@ is not a "success."
 single_request = client.get_some_object(id: 123)
 
 single_request.on_error do |page, handler|
-  #The page will have all of the status information
-  #The handler is the defined response_handler
-  #Use either to glean more information about why the request was an error and
-  # handle the error here
+  # The page will have all of the status information.
+  # The handler is the defined response_handler.
+  # Use either to glean more information about why the request was an error and
+  # handle the error here.
 end
 
 response_body = single_request.response
