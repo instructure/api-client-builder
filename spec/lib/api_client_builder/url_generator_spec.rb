@@ -15,6 +15,17 @@ module APIClientBuilder
 
           expect(route).to eq(URI.parse('https://www.domain.com/api/endpoints/object_one/4/4/route_to_object/10/object'))
         end
+
+        it 'replaces to route keys with their respective values in embedded params' do
+          url_generator = URLGenerator.new('https://www.domain.com/api/endpoints/')
+
+          route = url_generator.build_route(
+            'object_one/:object_one_id/:object_one_id/object&as_user_id=:user_object_id',
+            object_one_id: '4',
+            user_object_id: '1'
+          )
+          expect(route).to eq(URI.parse('https://www.domain.com/api/endpoints/object_one/4/4/object&as_user_id=1'))
+        end
       end
 
       context 'route with colon params and non matching keys' do
