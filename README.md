@@ -186,6 +186,10 @@ class HTTPClientHandler
     client.post(route, params, headers)
   end
 
+  def delete(route, params = nil, headers = {})
+    client.delete(route, params, headers)
+  end
+
   # Define a client to use here. The HTTPClient gem is a good option
 
   # Build up headers and authentication handling here as well
@@ -292,6 +296,20 @@ def post_request
   # add whatever else is necessary to the route.
   # Also send the body if that's how the client handler is configured.
   http_response = @http_client.post("a URL", {})
+  build_response(http_response)
+end
+```
+
+#### For deletes
+
+The builder will call `#delete_request` when handling delete routes.
+
+```ruby
+def delete_request
+  # Build the URL -- this could be to add pagination params to the route, or
+  # add whatever else is necessary to the route.
+  # Also send the body if that's how the client handler is configured.
+  http_response = @http_client.delete("a URL")
   build_response(http_response)
 end
 ```

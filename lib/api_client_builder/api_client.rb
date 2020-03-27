@@ -75,5 +75,22 @@ module APIClientBuilder
         )
       end
     end
+
+    # Used to define a DELETE api route on the base class. Will
+    # yield a method that takes the shape of 'delete_type' that will
+    # return a DeleteRequest.
+    #
+    # @param type [Symbol] defines the route model
+    # @param route [String] defines the routes endpoint
+    #
+    # @return [DeleteRequest] the request object that handles puts
+    def self.delete(type, route)
+      define_method("delete_#{type}") do |**params|
+        DeleteRequest.new(
+          type,
+          response_handler_build(http_client, @url_generator.build_route(route, **params), type)
+        )
+      end
+    end
   end
 end

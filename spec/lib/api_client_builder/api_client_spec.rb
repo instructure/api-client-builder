@@ -41,5 +41,15 @@ module APIClientBuilder
         expect(client.put_some_object({})).to be_a(APIClientBuilder::PutRequest)
       end
     end
+
+    describe '.delete' do
+      it 'defines a delete method on the client' do
+        expect(client).to respond_to(:delete_some_object)
+      end
+
+      it 'returns a DeleteRequest object' do
+        expect(client.delete_some_object({})).to be_a(APIClientBuilder::DeleteRequest)
+      end
+    end
   end
 end

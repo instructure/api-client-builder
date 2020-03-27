@@ -17,5 +17,6 @@ module TestClient
 
     post :some_object, 'some/post/url'
     put :some_object, 'som/put/url'
+    delete :some_object, 'som/delete/url'
   end
 end

@@ -18,6 +18,10 @@ module TestClient
       APIClientBuilder::Response.new([4, 5, 6], SUCCESS_STATUS, SUCCESS_RANGE)
     end
 
+    def delete_request
+      APIClientBuilder::Response.new('good delete request', SUCCESS_STATUS, SUCCESS_RANGE)
+    end
+
     def put_request(_body)
       APIClientBuilder::Response.new('good request', SUCCESS_STATUS, SUCCESS_RANGE)
     end
