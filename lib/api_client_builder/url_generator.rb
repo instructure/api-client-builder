@@ -28,7 +28,7 @@ module APIClientBuilder
       symboled_params.each do |param|
         value = params[param]
         raise ArgumentError, "Param :#{param} is required" unless value
-        new_route.gsub!(":#{param}", value.to_s)
+        new_route.gsub!(":#{param}", CGI.escape(value.to_s))
       end
 
       @base_uri.merge(new_route)

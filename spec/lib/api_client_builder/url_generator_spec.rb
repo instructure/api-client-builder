@@ -26,6 +26,16 @@ module APIClientBuilder
           )
           expect(route).to eq(URI.parse('https://www.domain.com/api/endpoints/object_one/4/4/object&as_user_id=1'))
         end
+
+        it 'encodes the URI correctly' do
+          url_generator = URLGenerator.new('https://www.domain.com/api/endpoints/')
+
+          route = url_generator.build_route(
+            'route_to_object/:object_id/object',
+            object_id: "\u1F4a9"
+          )
+          expect(route).to eq(URI.parse('https://www.domain.com/api/endpoints/route_to_object/%E1%BD%8A9/object'))
+        end
       end
 
       context 'route with colon params and non matching keys' do
