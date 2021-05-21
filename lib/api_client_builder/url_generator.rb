@@ -28,10 +28,19 @@ module APIClientBuilder
       symboled_params.each do |param|
         value = params[param]
         raise ArgumentError, "Param :#{param} is required" unless value
-        new_route.gsub!(":#{param}", CGI.escape(value.to_s))
+        new_route.gsub!(":#{param}", encode_ascii(value.to_s))
       end
 
       @base_uri.merge(new_route)
+    end
+
+    private
+
+    def encode_ascii(str)
+      str.each_char.map do |c|
+        next c if c.force_encoding('ascii').valid_encoding?
+        CGI.escape c
+      end.join
     end
   end
 end

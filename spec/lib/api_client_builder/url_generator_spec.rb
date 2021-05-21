@@ -31,10 +31,12 @@ module APIClientBuilder
           url_generator = URLGenerator.new('https://www.domain.com/api/endpoints/')
 
           route = url_generator.build_route(
-            'route_to_object/:object_id/object',
-            object_id: "\u1F4a9"
+            'route_to_object/:object_id/object/:query_string',
+            object_id: "\u1F4a9",
+            query_string: "?sample[]=\u1F648\u1F649\u1F64A&success=party\u1F64C"
           )
-          expect(route).to eq(URI.parse('https://www.domain.com/api/endpoints/route_to_object/%E1%BD%8A9/object'))
+          expect(route).to eq(URI.parse('https://www.domain.com/api/endpoints/route_to_object/%E1%BD%8A9/object/' \
+                                        '?sample[]=%E1%BD%A48%E1%BD%A49%E1%BD%A4A&success=party%E1%BD%A4C'))
         end
       end
 
