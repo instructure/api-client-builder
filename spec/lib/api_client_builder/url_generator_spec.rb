@@ -38,6 +38,27 @@ module APIClientBuilder
           expect(route).to eq(URI.parse('https://www.domain.com/api/endpoints/route_to_object/%E1%BD%8A9/object/' \
                                         '?sample[]=%E1%BD%A48%E1%BD%A49%E1%BD%A4A&success=party%E1%BD%A4C'))
         end
+
+        context "and the route has multiple colon params in they query string" do
+          let(:url) { 'object_one/:object_one_id/:object_one_id/object&as_user_id=:user_object_id&param_2=:param_2&per_page=100' }
+          let(:url_generator) { URLGenerator.new('https://www.domain.com/api/endpoints/') }
+
+          subject do
+            route = url_generator.build_route(
+              url,
+              object_one_id: '4',
+              user_object_id: '1',
+              param_2: 'anotherqueryparam'
+            )
+          end
+
+          it do
+            is_expected.to eq URI.parse(
+              'https://www.domain.com/api/endpoints/object_one/4/4/object&as_user_id=1&param_2=anotherqueryparam&per_page=100'
+            )
+          end
+        end
+
       end
 
       context 'route with colon params and non matching keys' do

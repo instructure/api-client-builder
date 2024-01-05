@@ -9,7 +9,7 @@ Gem::Specification.new do |gem|
   gem.homepage      = 'https://github.com/instructure/api-client-builder'
 
   gem.version       = APIClientBuilder::VERSION
-  gem.required_ruby_version = '>= 2.3'
+  gem.required_ruby_version = '>= 2.7'
 
   gem.license = 'MIT'
 
