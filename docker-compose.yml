@@ -1,0 +1,13 @@
+version: '3.8'
+
+volumes:
+  bundler-config:
+  bundler-gems:
+
+services:
+  api_client_builder:
+    build:
+      context: .
+    volumes:
+      - bundler-config:/home/docker/.bundle
+      - bundler-gems:/home/docker/.gem/ruby

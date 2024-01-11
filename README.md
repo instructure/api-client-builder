@@ -396,6 +396,31 @@ end
 
 response_body = single_request.response
 ```
+## Development
+First copy the compose override example file:
+```
+cp docker-compose.override.yml.example docker-compose.override.yml
+```
+
+This project uses [Compose watch](https://docs.docker.com/compose/file-watch/) to sync files between host and container.
+
+Compose watch will also rebuild the container (and install gems)
+if new dependencies are added to the gemspec.
+
+To build the container and start file watching, run the following
+```
+docker compose watch
+```
+
+To execute tests run
+```
+docker compose exec api_client_builder rspec
+```
+
+Start a shell in the container with
+```
+docker compose exec api_client_builder bash
+```
 
 ---
 

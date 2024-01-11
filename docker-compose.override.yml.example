@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  api_client_builder:
+    develop:
+      watch:
+        - action: sync
+          path: ./
+          target: /usr/src/app
+          ignore:
+            - coverage
+            - .git
+        - action: rebuild
+          path: api_client_builder.gemspec
