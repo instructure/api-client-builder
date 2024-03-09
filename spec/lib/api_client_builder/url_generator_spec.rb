@@ -59,6 +59,19 @@ module APIClientBuilder
           end
         end
 
+        context "the route has URL param just after a colon params path" do
+          let(:url) { 'objects/:object_id?foo=bar' }
+          let(:url_generator) { URLGenerator.new('https://www.domain.com/api/endpoints/') }
+
+          subject do
+            route = url_generator.build_route(url, object_id: 1)
+          end
+
+          it do
+            is_expected.to eq URI.parse('https://www.domain.com/api/endpoints/objects/1?foo=bar')
+          end
+        end
+
       end
 
       context 'route with colon params and non matching keys' do
