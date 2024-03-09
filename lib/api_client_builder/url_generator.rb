@@ -21,7 +21,7 @@ module APIClientBuilder
     #
     # @return [URI] the fully built route
     def build_route(route, **params)
-      string_params = route.split(%r{[\/=&]}).select { |param| param.start_with?(':') }
+      string_params = route.split(%r{[\/?=&]}).select { |param| param.start_with?(':') }
       symboled_params = string_params.map { |param| param.tr(':', '').to_sym }
 
       new_route = route.clone
