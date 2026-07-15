@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module APIClientBuilder
   # The multi item response object to be used as the container for
   # collection responses from the defined API
@@ -9,29 +11,21 @@ module APIClientBuilder
     # strategy is defined concretely on the response handler.
     #
     # @return [JSON] the http response body
-    # rubocop:disable Metrics/AbcSize
-    def each
-      if block_given?
-        each_page do |page|
-          if page.success?
-            page.body.each do |item|
-              yield(item)
-            end
-          elsif response_handler.respond_to?(:retryable?) && response_handler.retryable?(page.status_code)
-            retried_page = attempt_retry
+    def each(&block)
+      return Enumerator.new(self, :each) unless block_given?
 
-            retried_page.body.each do |item|
-              yield(item)
-            end
-          else
-            notify_error_handlers(page)
-          end
+      each_page do |page|
+        if page.success?
+          page.body.each(&block)
+        elsif response_handler.respond_to?(:retryable?) && response_handler.retryable?(page.status_code)
+          retried_page = attempt_retry
+
+          retried_page.body.each(&block)
+        else
+          notify_error_handlers(page)
         end
-      else
-        Enumerator.new(self, :each)
       end
     end
-    # rubocop:enable Metrics/AbcSize
 
     private
 

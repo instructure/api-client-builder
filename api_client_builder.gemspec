@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require File.expand_path('lib/api_client_builder/version', __dir__)
 
 Gem::Specification.new do |gem|
@@ -13,9 +15,8 @@ Gem::Specification.new do |gem|
 
   gem.license = 'MIT'
 
-  gem.add_development_dependency 'pry'
   gem.add_development_dependency 'rspec', '~> 3.7'
-  gem.add_development_dependency 'rubocop', '~> 0.57.2'
+  gem.add_development_dependency 'rubocop', '~> 1.88'
   gem.add_development_dependency 'simplecov', '~> 0'
 
   gem.files         = `git ls-files`.split("\n")

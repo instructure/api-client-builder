@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module TestClient
   class HTTPClientHandler
     def initialize(domain)

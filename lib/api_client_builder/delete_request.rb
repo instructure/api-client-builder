@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module APIClientBuilder
   class DeleteRequest < Request
     # Yields the response body if the response was successful. Will call

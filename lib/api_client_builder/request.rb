@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module APIClientBuilder
   class DefaultPageError < StandardError; end
 
@@ -49,7 +51,7 @@ module APIClientBuilder
 
       if page.success?
         response_handler.reset_retries
-        return page
+        page
       elsif response_handler.retryable?(page.status_code)
         attempt_retry
       else
