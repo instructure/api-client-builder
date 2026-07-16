@@ -1,4 +1,4 @@
-FROM instructure/ruby-passenger:2.7
+FROM instructure/ruby:3.4
 
 ENV RAILS_ENV "production"
 
