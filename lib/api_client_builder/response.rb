@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module APIClientBuilder
   # The default page object to be used to hold the response from the API
   # in your response handler object. Any response object that will replace this

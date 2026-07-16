@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative 'response_handler'
 require_relative 'http_client_handler'
 

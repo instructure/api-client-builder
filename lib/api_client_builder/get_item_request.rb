@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module APIClientBuilder
   # The single item response object to be used as the container for
   # singular responses from the defined API

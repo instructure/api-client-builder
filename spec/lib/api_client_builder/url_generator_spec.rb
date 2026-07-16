@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 module APIClientBuilder
@@ -39,26 +41,27 @@ module APIClientBuilder
                                         '?sample[]=%E1%BD%A48%E1%BD%A49%E1%BD%A4A&success=party%E1%BD%A4C'))
         end
 
-        context "and the route has multiple colon params in they query string" do
-          let(:url) { 'object_one/:object_one_id/:object_one_id/object&as_user_id=:user_object_id&param_2=:param_2&per_page=100' }
+        context 'and the route has multiple colon params in they query string' do
+          let(:url) do
+            'object_one/:object_one_id/:object_one_id/object&as_user_id=:user_object_id&param2=:param2&per_page=100'
+          end
           let(:url_generator) { URLGenerator.new('https://www.domain.com/api/endpoints/') }
 
           subject do
-            route = url_generator.build_route(
+            url_generator.build_route(
               url,
               object_one_id: '4',
               user_object_id: '1',
-              param_2: 'anotherqueryparam'
+              param2: 'anotherqueryparam'
             )
           end
 
           it do
             is_expected.to eq URI.parse(
-              'https://www.domain.com/api/endpoints/object_one/4/4/object&as_user_id=1&param_2=anotherqueryparam&per_page=100'
+              'https://www.domain.com/api/endpoints/object_one/4/4/object&as_user_id=1&param2=anotherqueryparam&per_page=100'
             )
           end
         end
-
       end
 
       context 'route with colon params and non matching keys' do

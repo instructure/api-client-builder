@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'uri'
 
 require_relative 'api_client_builder/version'
