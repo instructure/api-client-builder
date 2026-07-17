@@ -1,0 +1,55 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [master]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Build image
+        run: docker compose build --pull
+
+      - name: Lint (RuboCop)
+        run: docker compose run --rm api_client_builder bundle exec rubocop
+
+      # Named container (not --rm) so coverage can be copied out afterwards.
+      # SimpleCov enforces its 97% minimum in-container and fails the build below.
+      - name: Spec
+        run: docker compose run --name acb_spec api_client_builder bundle exec rspec --format doc
+
+      - name: Export coverage report
+        if: always()
+        continue-on-error: true
+        run: docker cp acb_spec:/usr/src/app/coverage ./coverage
+
+      - name: Upload coverage artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: coverage/
+          if-no-files-found: ignore
+
+  # DISABLED — brought over from the Jenkins pipeline but will not run yet.
+  # To enable auto-publishing to RubyGems on merge to master:
+  #   1. Add a `RUBYGEMS_API_KEY` repository secret (the RubyGems "rubygems-rw" API key).
+  #   2. Replace the `if: false` below with:  if: github.ref == 'refs/heads/master'
+  publish:
+    needs: test
+    runs-on: ubuntu-latest
+    if: false
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Build image
+        run: docker compose build --pull
+
+      - name: Publish gem to RubyGems
+        env:
+          GEM_HOST_API_KEY: ${{ secrets.RUBYGEMS_API_KEY }}
+        run: docker compose run -e GEM_HOST_API_KEY --rm api_client_builder /bin/bash -lc "./bin/publish.sh"
