@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 require_relative 'test_client/client'
 
@@ -48,7 +50,7 @@ module APIClientBuilder
       end
 
       it 'returns a DeleteRequest object' do
-        expect(client.delete_some_object({})).to be_a(APIClientBuilder::DeleteRequest)
+        expect(client.delete_some_object).to be_a(APIClientBuilder::DeleteRequest)
       end
     end
   end

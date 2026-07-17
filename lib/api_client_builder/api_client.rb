@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module APIClientBuilder
   # The base APIClient that defines the interface for defining an API Client.
   # Should be sub-classed and then provided an HTTPClient handler and a

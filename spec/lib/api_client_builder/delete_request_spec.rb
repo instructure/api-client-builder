@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 require_relative 'test_client/client'
 
@@ -8,7 +10,7 @@ module APIClientBuilder
         it 'returns a response object' do
           client = TestClient::Client.new(domain: 'https://www.domain.com/api/endpoints/')
 
-          some_object = client.delete_some_object({}).response
+          some_object = client.delete_some_object.response
           expect(some_object.body).to eq('good delete request')
         end
       end
@@ -19,7 +21,7 @@ module APIClientBuilder
 
           bad_response = APIClientBuilder::Response.new('bad request', 400, [200])
           allow_any_instance_of(TestClient::ResponseHandler).to receive(:delete_request).and_return(bad_response)
-          expect { client.delete_some_object({}).response }.to raise_error(
+          expect { client.delete_some_object.response }.to raise_error(
             APIClientBuilder::DefaultPageError, /Error Code: 400/
           )
         end

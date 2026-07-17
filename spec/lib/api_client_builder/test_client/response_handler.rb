@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module TestClient
   class ResponseHandler
     SUCCESS_STATUS = 200
